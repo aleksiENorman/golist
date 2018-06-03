@@ -46,6 +46,7 @@ func (e *entry) save() error {
 	return nil
 }
 
+// Load from file. (Untested 2017-05-03)
 func load(series string) ([]entry, error) {
 	var currentResult entry
 	result := make([]entry, 1, 100)
@@ -76,6 +77,7 @@ func load(series string) ([]entry, error) {
 	return result, nil
 }
 
+// Hash series to create name
 func calcName(series string) string {
 	hash := sha1.New()
 	hash.Write([]byte(series))

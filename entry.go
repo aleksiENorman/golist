@@ -6,12 +6,14 @@ import (
 	"time"
 )
 
+// List entry type
 type entry struct {
 	time    time.Time
 	series  string
 	message string
 }
 
+// Validate entry and default optional fields
 func (e *entry) saveValidate() error {
 	errs := make([]string, 0)
 
@@ -34,6 +36,7 @@ func (e *entry) saveValidate() error {
 	return nil
 }
 
+// Set index based on POST values or csv
 func (e *entry) setIndex(index string, value []byte) error {
 	switch index {
 	case "time":

@@ -50,6 +50,8 @@ func PostHandler(w http.ResponseWriter, r *http.Request) entry {
 	return result
 }
 
+// Read entry from "application/x-www-form-urlencoded"
+// Post request
 func urlEncodedRead(r *http.Request) (entry, error) {
 	var result entry
 
@@ -64,6 +66,8 @@ func urlEncodedRead(r *http.Request) (entry, error) {
 	return result, nil
 }
 
+// Read entry from "form/multipart"
+// Post request
 func multipartRead(r *http.Request, boundary string) (entry, error) {
 	var result entry
 

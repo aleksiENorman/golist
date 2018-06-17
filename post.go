@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -88,8 +87,6 @@ func multipartRead(r *http.Request, boundary string) (entry, error) {
 
 		result.setIndex(p.FormName(), buffer)
 	}
-
-	fmt.Println("OK")
 
 	return result, nil
 }

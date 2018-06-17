@@ -8,24 +8,46 @@ import (
 
 // List entry type
 type entry struct {
-	time    time.Time
-	series  string
-	message string
+	Time    time.Time
+	Series  string
+	Message string
 }
 
 // Validate entry and default optional fields
 func (e *entry) saveValidate() error {
 	errs := make([]string, 0)
 
-	if e.time.IsZero() {
-		e.time = time.Now()
+	if e.Time.IsZero() {
+		e.Time = time.Now()
 	}
 
-	if e.series == "" {
+	if e.Series == "" {
 		errs = append(errs, "Field Series is a required field")
 	}
 
-	if e.message == "" {
+	if e.Message == "" {
+		errs = append(errs, "Field Message is a required field")
+	}
+
+	if len(errs) > 0 {
+		return errors.New("One or more errors where encountered:\n" + strings.Join(errs, "\n"))
+	}
+
+	return nil
+}
+
+func (e *entry) readValidate() error {
+	errs := make([]string, 0)
+
+	if e.Time.IsZero() {
+		errs = append(errs, "Field Time is a required field")
+	}
+
+	if e.Series == "" {
+		errs = append(errs, "Field Series is a required field")
+	}
+
+	if e.Message == "" {
 		errs = append(errs, "Field Message is a required field")
 	}
 
@@ -40,11 +62,11 @@ func (e *entry) saveValidate() error {
 func (e *entry) setIndex(index string, value []byte) error {
 	switch index {
 	case "time":
-		e.time.UnmarshalText(value)
+		e.Time.UnmarshalText(value)
 	case "series":
-		e.series = string(value)
+		e.Series = string(value)
 	case "message":
-		e.message = string(value)
+		e.Message = string(value)
 	default:
 		return errors.New("Form field " + index + " is not regonized")
 	}

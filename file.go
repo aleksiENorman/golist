@@ -4,15 +4,14 @@ import (
 	"crypto/sha1"
 	"encoding/csv"
 	"fmt"
-	"io"
 	"os"
-	"strings"
 	"time"
 
 	flock "github.com/theckman/go-flock"
 )
 
 // Save in file using series SHA1-sum as name
+/*
 func (e *entry) save() error {
 	filename := calcName(e.Series, true)
 
@@ -24,7 +23,7 @@ func (e *entry) save() error {
 
 	return writeFile(filename, []string{e.Time.String(), e.Message})
 }
-
+*/
 func writeFile(filename string, record []string) error {
 	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -58,6 +57,7 @@ func writeFile(filename string, record []string) error {
 }
 
 // Load from file. (Untested 2017-05-03)
+/*
 func load(series string) ([]entry, error) {
 	var currentResult entry
 	result := make([]entry, 0, 100)
@@ -92,7 +92,7 @@ func load(series string) ([]entry, error) {
 
 	return result, nil
 }
-
+*/
 // Hash series to create name
 func calcName(series string, doHash bool) string {
 	var baseName []byte

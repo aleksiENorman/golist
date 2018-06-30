@@ -4,13 +4,17 @@ import (
 	"errors"
 	"strings"
 	"time"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 // List entry type
 type entry struct {
-	Time    time.Time
-	Series  string
-	Message string
+	Time     time.Time
+	Series   string
+	Message  string
+	Primary  bool
+	ObjectId bson.ObjectId
 }
 
 // Validate entry and default optional fields
@@ -67,6 +71,8 @@ func (e *entry) setIndex(index string, value []byte) error {
 		e.Series = string(value)
 	case "message":
 		e.Message = string(value)
+	case "objectId":
+		e.ObjectId = bson.ObjectId(value)
 	default:
 		return errors.New("Form field " + index + " is not regonized")
 	}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -45,6 +46,15 @@ func PostHandler(w http.ResponseWriter, r *http.Request) entry {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return result
 	}
+
+	jsonResult, err := json.Marshal(result)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return result
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResult)
 
 	return result
 }

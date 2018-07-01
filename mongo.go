@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -69,14 +67,12 @@ func (e *entry) delete() error {
 	c := session.DB("golist").C("posts")
 
 	if err = c.Find(bson.M{"_id": e.ObjectId}).One(&e); err != nil {
-		fmt.Println("FindId")
 		return err
 	}
 
 	if e.Primary {
 		_, err = c.RemoveAll(bson.M{"series": e.Series})
 	} else {
-		fmt.Println("Remove")
 		return c.Remove(bson.M{"_id": e.ObjectId})
 	}
 

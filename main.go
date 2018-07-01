@@ -82,10 +82,15 @@ func main() {
 
 func index() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
+		switch r.Method {
+		case "POST":
 			PostHandler(w, r)
-		} else {
+		case "GET":
 			GetHandler(w, r)
+		case "DELETE":
+			DeleteHandler(w, r)
+		default:
+			http.Error(w, r.Method+": Not Implemented", http.StatusNotImplemented)
 		}
 	})
 }

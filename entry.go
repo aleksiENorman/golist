@@ -14,7 +14,7 @@ type entry struct {
 	Series   string
 	Message  string
 	Primary  bool
-	ObjectId bson.ObjectId
+	ObjectId bson.ObjectId `bson:"_id,omitempty"`
 }
 
 // Validate entry and default optional fields

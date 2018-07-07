@@ -28,7 +28,15 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) error {
 			return err
 		}
 
-		data, err := load(e.Series)
+		var loadName string
+		if e.Primary {
+			loadName = "index"
+		} else {
+			loadName = e.Series
+		}
+
+		data, err := load(loadName)
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return err

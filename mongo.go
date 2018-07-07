@@ -20,7 +20,19 @@ func (e *entry) save() error {
 	c := session.DB("golist").C("posts")
 
 	if e.ObjectId != "" {
-		return c.UpdateId(e.ObjectId, e)
+		var dbEntry entry
+
+		if err = c.Find(bson.M{"_id": e.ObjectId}).One(&dbEntry); err != nil {
+			return err
+		}
+
+		if dbEntry.Series != e.Series {
+			return New("Series " + e.Series + " does not match with that on the database")
+		}
+
+		dbEntry.Message = e.Message
+
+		return c.UpdateId(e.ObjectId, dbEntry)
 	}
 
 	preExistingCount, err = c.Find(bson.M{"series": e.Series, "primary": true}).Count()

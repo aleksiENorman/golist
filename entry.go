@@ -72,7 +72,9 @@ func (e *entry) setIndex(index string, value []byte) error {
 	case "message":
 		e.Message = string(value)
 	case "objectId":
-		e.ObjectId = bson.ObjectId(value)
+		if string(value) != "" {
+			e.ObjectId = bson.ObjectId(bson.ObjectIdHex(string(value)))
+		}
 	default:
 		return errors.New("Form field " + index + " is not regonized")
 	}
